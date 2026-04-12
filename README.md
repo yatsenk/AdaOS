@@ -16,3 +16,4 @@ To run **AdaOS**, you need to have the following installed:
    ```bash
    git clone [https://github.com/yatsenk/AdaOS.git](https://github.com/yatsenk/AdaOS.git)
    cd AdaOS
+   ```
