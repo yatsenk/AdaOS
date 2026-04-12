@@ -1,5 +1,3 @@
-# AdaOS
-
 ## 🚀 Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
@@ -14,6 +12,5 @@ To run **AdaOS**, you need to have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/yatsenk/AdaOS.git](https://github.com/yatsenk/AdaOS.git)
+   git clone [https://github.com/yourusername/AdaOS.git](https://github.com/yourusername/AdaOS.git)
    cd AdaOS
-   ```
