@@ -11,11 +11,13 @@ To run **AdaOS**, you need to have the following installed:
 ### Installation & Run
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yatsenk/AdaOS.git
    cd AdaOS
    
-2. **Build and Run**
+3. **Build and Run**
+
    ```bash
    cargo run
 
