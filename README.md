@@ -16,9 +16,15 @@ To run **AdaOS**, you need to have the following installed:
    git clone https://github.com/yatsenk/AdaOS.git
    cd AdaOS
    
-3. **Build and Run**
+2. **Build and Run**
 
    ```bash
    cargo run
+
+3. **Test**
+
+   ```bash
+   cargo test
+   
 
 Note: If you encounter any issues with the target architecture, ensure you have the necessary rust-src component installed via rustup component add rust-src.
