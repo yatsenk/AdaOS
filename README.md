@@ -5,7 +5,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 ### Prerequisites
 
 To run **AdaOS**, you need to have the following installed:
-* [Rust](https://www.rust-lang.org/tools/install) (Nightly toolchain recommended)
+* [Rust](https://www.rust-lang.org/tools/install) (Nightly toolchain needed)
 * [QEMU](https://www.qemu.org/download/) (System emulators)
 
 ### Installation & Run
