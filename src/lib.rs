@@ -10,8 +10,10 @@ use core::panic::PanicInfo;
 pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
+pub mod gdt;
 
 pub fn init() {
+    gdt::init();
     interrupts::init_idt();
 }
 pub trait Testable {
@@ -73,4 +75,9 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     test_panic_handler(info)
+}
+
+#[test_case]
+fn trivial_assertion() {
+    assert_eq!(1, 1);
 }
