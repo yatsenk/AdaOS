@@ -1,5 +1,5 @@
 [package]
-name = "AdaOS"
+name = "ada_os"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,7 +7,7 @@ edition = "2024"
 bootloader = "0.9"
 volatile = "0.2.6"
 spin = "0.5.2"
-x86_64 = "0.14.2"
+x86_64 = "0.15.4"
 uart_16550 = "0.6.0"
 
 [dependencies.lazy_static]
@@ -15,7 +15,11 @@ version = "1.0"
 features = ["spin_no_std"]
 
 [package.metadata.bootimage]
-test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]
+test-args = [
+    "-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio",
+    "-display", "none"
+]
+test-timeout = 300 
 test-success-exit-code = 33  
 
 [profile.dev]
@@ -25,6 +29,6 @@ test-success-exit-code = 33
 panic = "abort"
 
 [[bin]]
-name = "AdaOS"
+name = "ada_os"
 test = true
 bench = false
