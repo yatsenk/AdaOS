@@ -23,8 +23,20 @@ To run **AdaOS**, you need to have the following installed:
 
 ### Testing
 
+1. **Normal testing**
    ```bash
    cargo test
    ```
 
+2. **Library testing**
+   ```bash
+   cargo test --lib
+   ```
+
+3. **Integration testing**
+   ```bash
+   cargo test --test basic_boot
+   cargo test --test stack_overflow
+   ```
+   
 Note: If you encounter any issues with the target architecture, ensure you have the necessary rust-src component installed via rustup component add rust-src.
