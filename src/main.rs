@@ -5,7 +5,7 @@
 #![reexport_test_harness_main = "test_main"]
 
 use ada_os::{memory::active_level_4_table, println};
-use x86_64::VirtAddr;
+use x86_64::{VirtAddr, structures::paging::PageTable};
 use core::panic::PanicInfo;
 use bootloader::{BootInfo, entry_point};
 
@@ -22,6 +22,37 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     for (i, entry) in l4_table.iter().enumerate() {
         if !entry.is_unused() {
             println!("L4 Entry {}: {:?}", i, entry);
+            
+            let phys_addr = entry.frame().unwrap().start_address();
+            let virt_addr = phys_addr.as_u64() + boot_info.physical_memory_offset;
+            let ptr: *mut PageTable = VirtAddr::new(virt_addr).as_mut_ptr();
+            let l3_table = unsafe { &*ptr };
+
+            for (i, entry) in l3_table.iter().enumerate() {
+                if !entry.is_unused() {
+                    println!("L3 Entry {}: {:?}", i, entry);
+
+                    let phys_addr = entry.frame().unwrap().start_address();
+                    let virt_addr = phys_addr.as_u64() + boot_info.physical_memory_offset;
+                    let ptr: *mut PageTable = VirtAddr::new(virt_addr).as_mut_ptr();
+                    let l2_table = unsafe { &*ptr };
+
+                    for (i, entry) in l2_table.iter().enumerate() {
+                        if !entry.is_unused() {
+                            println!("L2 Entry {}: {:?}", i, entry);
+
+                            let phys_addr = entry.frame().unwrap().start_address();
+                            let virt_addr = phys_addr.as_u64() + boot_info.physical_memory_offset;
+                            let ptr: *mut PageTable = VirtAddr::new(virt_addr).as_mut_ptr();
+                            let l1_table = unsafe { &*ptr };
+
+                            for (i, entry) in l1_table.iter().enumerate() {
+                                println!("L1 Entry {}: {:?}", i, entry);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
