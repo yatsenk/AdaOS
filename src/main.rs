@@ -27,10 +27,14 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
         }
     }
 
+    let stack = 0u64;
+    let stack_ptr = &stack as *const u64 as u64;
+
+    let my_fn_ptr = translate_addr as *const () as u64;
+
     let adresses = [
-        0xb8000,
-        0x201008,
-        0x0100_0020_1a10,
+        stack_ptr,
+        my_fn_ptr,
         boot_info.physical_memory_offset,
     ];
 
