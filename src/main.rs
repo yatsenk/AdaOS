@@ -4,8 +4,8 @@
 #![test_runner(ada_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use ada_os::{memory::active_level_4_table, println};
-use ada_os::memory::translate_addr;
+use ada_os::memory::{active_level_4_table, translate_addr};
+use ada_os::println;
 use x86_64::VirtAddr;
 use core::panic::PanicInfo;
 use bootloader::{BootInfo, entry_point};
