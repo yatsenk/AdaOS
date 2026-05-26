@@ -13,8 +13,8 @@ To run **AdaOS**, you need to have the following installed:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yatsenk/AdaOS.git
-   cd AdaOS
+   git clone https://github.com/yatsenk/ada-os.git
+   cd ada-os
    
 2. **Build and Run**
 
