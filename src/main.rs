@@ -33,6 +33,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     let my_fn_ptr = translate_addr as *const () as u64;
 
     let adresses = [
+        0xb8000,
         stack_ptr,
         my_fn_ptr,
         boot_info.physical_memory_offset,
