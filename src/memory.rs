@@ -1,10 +1,17 @@
 use x86_64::{
     PhysAddr,
     VirtAddr, 
-    structures::paging::PageTable,
+    structures::paging::{OffsetPageTable, PageTable},
 };
 
-pub unsafe fn active_level_4_table(
+pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static> {
+    unsafe {
+        let l4_table = active_level_4_table(physical_memory_offset);
+        OffsetPageTable::new(l4_table, physical_memory_offset)
+    }
+}
+
+unsafe fn active_level_4_table(
     physical_memory_offset: VirtAddr,
 ) -> &'static mut PageTable {
     use x86_64::registers::control::Cr3;

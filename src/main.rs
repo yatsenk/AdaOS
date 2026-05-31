@@ -4,7 +4,7 @@
 #![test_runner(ada_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use ada_os::memory::{active_level_4_table, translate_addr};
+use ada_os::memory::{init, translate_addr};
 use ada_os::println;
 use x86_64::VirtAddr;
 use core::panic::PanicInfo;
@@ -18,14 +18,6 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     ada_os::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
-
-    let l4_table = unsafe { active_level_4_table(phys_mem_offset) };
-
-    for (i, entry) in l4_table.iter().enumerate() {
-        if !entry.is_unused() {
-            println!("L4 Entry {}: {:?}", i, entry);
-        }
-    }
 
     let stack = 0u64;
     let stack_ptr = &stack as *const u64 as u64;
