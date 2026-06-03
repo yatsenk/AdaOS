@@ -65,6 +65,7 @@ pub fn create_mapping(
     let flags = PageTableFlags::PRESENT | PageTableFlags::WRITABLE;
 
     let map_to_result = unsafe {
+        // FIXME: this is not safe
         mapper.map_to(page, frame, flags, frame_allocator)
     };
 
