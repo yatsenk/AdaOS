@@ -7,6 +7,7 @@
 use ada_os::memory::{init, translate_addr};
 use ada_os::println;
 use x86_64::VirtAddr;
+use x86_64::structures::paging::Translate;
 use core::panic::PanicInfo;
 use bootloader::{BootInfo, entry_point};
 
@@ -18,6 +19,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     ada_os::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
+    let mapper = unsafe { init(phys_mem_offset) };
 
     let stack = 0u64;
     let stack_ptr = &stack as *const u64 as u64;
@@ -33,9 +35,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     for &addres in &adresses {
         let virt = VirtAddr::new(addres);
-        let phys = unsafe {
-            translate_addr(virt, phys_mem_offset)
-        };
+        let phys = mapper.translate_addr(virt);
         println!("{:?} -> {:?} ", virt, phys);
     }
     
