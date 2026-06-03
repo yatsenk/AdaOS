@@ -4,10 +4,10 @@
 #![test_runner(ada_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use ada_os::memory::{init, translate_addr};
+use ada_os::memory::{self, BootInfoFrameAllocator, init, translate_addr};
 use ada_os::println;
 use x86_64::VirtAddr;
-use x86_64::structures::paging::Translate;
+use x86_64::structures::paging::{Translate, Page};
 use core::panic::PanicInfo;
 use bootloader::{BootInfo, entry_point};
 
@@ -19,16 +19,23 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     ada_os::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
-    let mapper = unsafe { init(phys_mem_offset) };
+    let mut mapper = unsafe { init(phys_mem_offset) };
+    let mut frame_allocator = unsafe { 
+        BootInfoFrameAllocator::init(&boot_info.memory_map) 
+    };
+
+    let page = Page::containing_address(VirtAddr::new(0));
+    memory::create_mapping(page, &mut mapper, &mut frame_allocator);
+
+    let page_ptr: *mut u64 = page.start_address().as_mut_ptr();
+    unsafe { page_ptr.offset(400).write_volatile(0x_f324_d422_a323_af32); };
 
     let stack = 0u64;
     let stack_ptr = &stack as *const u64 as u64;
-
     let my_fn_ptr = translate_addr as *const () as u64;
-
     let adresses = [
         0xb8000,
-        stack_ptr,
+        stack_ptr,  
         my_fn_ptr,
         boot_info.physical_memory_offset,
     ];
