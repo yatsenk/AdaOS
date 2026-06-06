@@ -5,6 +5,8 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+extern crate alloc;
+
 use core::panic::PanicInfo;
 
 #[cfg(test)]
@@ -15,6 +17,7 @@ pub mod serial;
 pub mod vga_buffer;
 pub mod gdt;
 pub mod memory;
+pub mod allocator;
 
 #[cfg(test)]
 entry_point!(test_kernel_main);
