@@ -4,7 +4,12 @@
 #![test_runner(ada_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+extern crate alloc;
+
+use alloc::boxed::Box;
+
 use ada_os::memory::{self, BootInfoFrameAllocator, init, translate_addr};
+use ada_os::allocator;
 use ada_os::println;
 use x86_64::VirtAddr;
 use x86_64::structures::paging::{Translate, Page};
@@ -23,6 +28,11 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     let mut frame_allocator = unsafe { 
         BootInfoFrameAllocator::init(&boot_info.memory_map) 
     };
+
+    allocator::init_heap(&mut mapper, &mut frame_allocator)
+        .expect("Heap initialization failed");
+
+    let x = Box::new(42);
 
     let page = Page::containing_address(VirtAddr::new(0));
     memory::create_mapping(page, &mut mapper, &mut frame_allocator);
