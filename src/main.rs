@@ -11,6 +11,7 @@ use alloc::boxed::Box;
 use ada_os::memory::{self, BootInfoFrameAllocator, init, translate_addr};
 use ada_os::allocator;
 use ada_os::println;
+use alloc::vec::Vec;
 use x86_64::VirtAddr;
 use x86_64::structures::paging::{Translate, Page};
 use core::panic::PanicInfo;
@@ -33,6 +34,16 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
         .expect("Heap initialization failed");
 
     let x = Box::new(42);
+    println!("heap value at {:p}", x);
+
+    let y = Box::new(42);
+    println!("heap value at {:p}", y);
+
+    let mut vec = Vec::new();
+    for i in 0..500 {
+        vec.push(i);
+    }
+    println!("vec at {:p}", vec.as_slice());
 
     let page = Page::containing_address(VirtAddr::new(0));
     memory::create_mapping(page, &mut mapper, &mut frame_allocator);
