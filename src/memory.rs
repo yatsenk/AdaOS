@@ -90,7 +90,7 @@ unsafe fn active_level_4_table(
     unsafe { &mut *page_table_ptr }
 }
 
-// Translate::translate_addr is using now.
+// [DEPRECATED] use Translate::translate_addr
 pub unsafe fn translate_addr(addr: VirtAddr, physical_memory_offset: VirtAddr) -> Option<PhysAddr> {
     translate_addr_inner(addr, physical_memory_offset)
 }
