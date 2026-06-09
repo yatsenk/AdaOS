@@ -8,7 +8,7 @@ use x86_64::{
     }
 };
 
-const HEAP_START: u64 = 0x_4242_4242_4242_8888;
+const HEAP_START: u64 = 0x_4444_4444_0000;
 const HEAP_SIZE: u64 = 100 * 1024; // 100 KiB
 
 #[global_allocator]
@@ -21,7 +21,7 @@ pub fn init_heap(
     let page_range = {
         let heap_start = VirtAddr::new(HEAP_START as u64);
         let heap_end = heap_start + HEAP_SIZE - 1u64;
-        let heap_start_page: Page<Size4KiB> = Page::containing_address(heap_start);
+        let heap_start_page: Page = Page::containing_address(heap_start);
         let heap_end_page = Page::containing_address(heap_end);
         Page::range_inclusive(heap_start_page, heap_end_page)
     };
