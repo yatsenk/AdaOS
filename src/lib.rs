@@ -59,10 +59,10 @@ pub fn test_runner(tests: &[&dyn Testable]) {
 }
 
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
-    serial_println!("[failed]\n");
-    serial_println!("Error: {}\n", info);
+    serial_println!("[FAILED]\n");
+    serial_println!("ERROR: {}\n", info);
     exit_qemu(QemuExitCode::Failed);
-    hlt_loop();
+    hlt_loop(); 
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
