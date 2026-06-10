@@ -109,10 +109,13 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(
     if let Ok(Some(key_event)) = keyboard.add_byte(scancode) {
         if let Some(key) = keyboard.process_keyevent(key_event) {
             match key {
+                DecodedKey::Unicode('\u{08}') => {
+                    print!("\r");
+                }
                 DecodedKey::Unicode(character) => print!("{}", character),
                 DecodedKey::RawKey(key) => {
                     match key {
-                        _ => print!("{:?}", key)
+                        _ => print!("{:?}", key),
                     }
                 }
             }
