@@ -6,6 +6,7 @@ use spin::Mutex;
 lazy_static! {
     pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
+        row: 0,
         color_code: ColorCode::new(Color::Black, Color::White),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
@@ -60,6 +61,7 @@ struct Buffer {
 
 pub struct Writer {
     column_position: usize,
+    row: usize,
     color_code: ColorCode,
     buffer: &'static mut Buffer,
 }
@@ -74,7 +76,7 @@ impl Writer {
                     self.new_line();
                 }
 
-                let row = BUFFER_HEIGHT - 1;
+                let row = self.row;
                 let col = self.column_position;
 
                 let color_code = self.color_code;
@@ -106,6 +108,7 @@ impl Writer {
         }
         self.clear_row(BUFFER_HEIGHT - 1);
         self.column_position = 0;
+        self.row += 1;
     }
 
     fn clear_row(&mut self, row: usize) { 
@@ -121,7 +124,7 @@ impl Writer {
 
     fn backspace(&mut self) {
         if self.column_position > 0 {
-            let row = BUFFER_HEIGHT - 1;
+            let row = self.row;
             let col = self.column_position - 1;
             
             let blank = ScreenChar {
