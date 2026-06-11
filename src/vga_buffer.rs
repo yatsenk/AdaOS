@@ -120,17 +120,19 @@ impl Writer {
     }
 
     fn backspace(&mut self) {
-        let row = BUFFER_HEIGHT - 1;
-        let col = self.column_position - 1;
-        
-        let blank = ScreenChar {
-            ascii_character: b' ',
-            color_code: self.color_code, 
-        };
+        if self.column_position > 0 {
+            let row = BUFFER_HEIGHT - 1;
+            let col = self.column_position - 1;
+            
+            let blank = ScreenChar {
+                ascii_character: b' ',
+                color_code: self.color_code, 
+            };
 
-        self.buffer.chars[row][col].write(blank);
+            self.buffer.chars[row][col].write(blank);
 
-        self.column_position -= 1;
+            self.column_position -= 1;
+        }
     }
 }
 
