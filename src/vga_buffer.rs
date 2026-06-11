@@ -129,6 +129,8 @@ impl Writer {
         };
 
         self.buffer.chars[row][col].write(blank);
+
+        self.column_position -= 1;
     }
 }
 
