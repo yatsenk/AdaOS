@@ -19,8 +19,16 @@ use bootloader::{BootInfo, entry_point};
 
 entry_point!(kernel_main);
 
+const BANNER: &str = r"
+     _    ____    _       ___  ____  
+    / \  |  _ \  / \     / _ \/ ___| 
+   / _ \ | | | |/ _ \   | | | \___ \ 
+  / ___ \| |_| / ___ \  | |_| |___) |
+ /_/   \_\____/_/   \_\  \___/|____/ 
+";
+
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
-    println!("Hello World{}", "!");
+    println!("{}", BANNER);
 
     ada_os::init();
 
