@@ -48,8 +48,9 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     let page = Page::containing_address(VirtAddr::new(0));
     memory::create_mapping(page, &mut mapper, &mut frame_allocator);
 
+    #[allow(unused)]
     let page_ptr: *mut u64 = page.start_address().as_mut_ptr();
-    unsafe { page_ptr.offset(400).write_volatile(0x_f324_d422_a323_af32); };
+    // unsafe { page_ptr.offset(400).write_volatile(0x_f324_d422_a323_af32); };
 
     let stack = 0u64;
     let stack_ptr = &stack as *const u64 as u64;
