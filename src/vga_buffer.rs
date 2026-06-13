@@ -106,7 +106,7 @@ impl Writer {
                 self.buffer.chars[row][col].write(character);
             }
         }
-        
+
         self.row += 1;
         self.clear_row(self.row);
         self.column_position = 0;
@@ -123,6 +123,7 @@ impl Writer {
         }
     }
 
+    // fixme: deletes chars only at current row
     fn backspace(&mut self) {
         if self.column_position > 0 {
             let row = self.row;
