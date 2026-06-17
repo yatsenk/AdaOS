@@ -37,6 +37,7 @@ To run **AdaOS**, you need to have the following installed:
    ```bash
    cargo test --test basic_boot
    cargo test --test stack_overflow
+   cargo test -- test heap_allocation
    ```
    
 Note: If you encounter any issues with the target architecture, ensure you have the necessary rust-src component installed via rustup component add rust-src.
