@@ -16,6 +16,22 @@ pub const HEAP_SIZE: u64 = 100 * 1024; // 100 KiB
 #[global_allocator]
 static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
+pub struct Locked<A> {
+    inner: spin::Mutex<A>,
+}
+
+impl<A> Locked<A> {
+    pub const fn new(inner: A) -> Self {
+        Locked { 
+            inner: spin::Mutex::new(inner),
+        }
+    }
+
+    pub fn lock(&self) -> spin::MutexGuard<A> {
+        self.inner.lock()
+    }
+}
+
 pub fn init_heap(
     mapper: &mut impl Mapper<Size4KiB>,
     frame_allocator: &mut impl FrameAllocator<Size4KiB>,
@@ -55,4 +71,8 @@ unsafe impl GlobalAlloc for DummyAllocator {
     unsafe fn dealloc(&self, _ptr: *mut u8, _layout: core::alloc::Layout) {
         panic!("Should never called.")
     }
+}
+
+fn align_up(addr: usize, align: usize) -> usize {
+    (addr + align - 1) & !(align - 1)
 }
